@@ -3,7 +3,7 @@ import { basicReducer } from '../../../utils/basicReducer';
 import { pagesReducer } from '../pages.reducer';
 import { SET_PAGE, changePage } from '../pages.actions';
 import { SET_FETCHING } from '../../fetching/fetching.actions';
-import { SET_ITEMS } from '../../items/items.actions';
+import { SET_ITEMS } from '../../categoriesList/categoriesList.actions';
 
 describe('pages reducer', () => {
   it('SET_PAGE', () => {

@@ -4,6 +4,7 @@ export class ProductSelectorError extends Error {
       INVALID_VALUE: 'INVALID_VALUE',
       GET_ITEMS: 'GET_ITEMS',
       GET_SELECTED_ITEMS: 'GET_SELECTED_ITEMS',
+      GET_CATEGORIES: 'GET_CATEGORIES',
       GET_SDK: 'GET_SDK'
   }
   code = 'UNDEFINED'

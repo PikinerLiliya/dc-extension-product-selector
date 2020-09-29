@@ -7,7 +7,7 @@ import { setGlobalError } from './store/global-error/global-error.actions';
 import { makeStyles, Container, Snackbar } from '@material-ui/core';
 
 import SearchBox from './search-box/SearchBox';
-import ProductsGrid from './products-grid/ProductsGrid';
+import CategoriesGrid from './categories-grid/CategoriesGrid';
 import SelectedProducts from './selected-products/SelectedProducts';
 
 const styles = makeStyles(() => ({
@@ -47,7 +47,7 @@ const AppComponent = params => {
       />
       <SelectedProducts />
       <SearchBox />
-      <ProductsGrid />
+      <CategoriesGrid />
     </Container>
   );
 };

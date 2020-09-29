@@ -8,9 +8,9 @@ describe('params reducer', () => {
       {
         action: {
           type: SET_PARAMS,
-          value: { instance: { backend: 'sfcc' }, installation: {} }
+          value: { instance: { backend: 'commercetools' }, installation: {} }
         },
-        expected: Object.assign(params, { backend: 'sfcc' })
+        expected: Object.assign(params, { backend: 'commercetools' })
       },
       { action: { type: '', value: {} }, expected: params }
     ]);

@@ -70,7 +70,7 @@ describe('selectedItems.actions', () => {
           getValue
         }
       },
-      selectedItems: [],
+      selectedCategories: [],
       backend
     });
 
@@ -85,7 +85,6 @@ describe('selectedItems.actions', () => {
     );
 
     expect(dispatched).toEqual([
-      { type: SET_FETCHING, value: true },
       { type: SET_FETCHING, value: false },
       { type: SET_INITIALISED, value: true },
       { type: SET_GLOBAL_ERROR, value: 'Could not get selected items' }
@@ -127,7 +126,6 @@ describe('selectedItems.actions', () => {
     expect(getValue).toBeCalled();
     expect(backend.getItems).toBeCalled();
     expect(dispatched).toEqual([
-      { type: SET_FETCHING, value: true },
       {
         type: actions.SET_SELECTED_ITEMS,
         value: [
@@ -136,7 +134,6 @@ describe('selectedItems.actions', () => {
           }
         ]
       },
-      { type: SET_FETCHING, value: false },
       { type: SET_INITIALISED, value: true }
     ]);
 

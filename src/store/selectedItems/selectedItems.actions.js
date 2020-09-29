@@ -4,8 +4,8 @@ import isEmpty from 'lodash/isEmpty';
 import indexOf from 'lodash/indexOf';
 import isArray from 'lodash/isArray';
 
-import { setValue } from '../items/items.actions';
 import { setFetching } from '../fetching/fetching.actions';
+import { setValue } from '../categoriesList/categoriesList.actions';
 import { setInitialised } from '../initialised/initialised.actions';
 import { ProductSelectorError } from '../../ProductSelectorError';
 import { setTouched } from '../touched/touched.actions';
@@ -41,22 +41,20 @@ export const toggleProduct = (item, isSelected) => async (dispatch, getState) =>
   dispatch(isSelected ? removeItem(item) : addItem(item));
   dispatch(setTouched(true));
 
-  const { selectedItems } = getState();
+  const { selectedCategories } = getState();
 
-  dispatch(setValue(selectedItems));
+  dispatch(setValue(selectedCategories));
 };
 
 export const reorderItems = indexes => (dispatch, getState) => {
   dispatch(reorder(indexes));
-  const { selectedItems } = getState();
-  dispatch(setValue(selectedItems));
+  const { selectedCategories } = getState();
+  dispatch(setValue(selectedCategories));
 };
 
 export const getSelectedItems = () => async (dispatch, getState) => {
   const state = getState();
   const { SDK, backend } = state;
-
-  dispatch(setFetching(true));
 
   let selectedItems = [];
 
@@ -81,7 +79,6 @@ export const getSelectedItems = () => async (dispatch, getState) => {
     }
     dispatch(setSelectedItems(selectedItems));
 
-    dispatch(setFetching(false));
     dispatch(setInitialised(true));
   } catch (e) {
     console.error('could not load', e);

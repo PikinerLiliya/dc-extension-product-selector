@@ -4,8 +4,7 @@ import { CircularProgress, Grid, makeStyles } from '@material-ui/core';
 
 import Pager from '../pager/Pager';
 import FadeIn from '../fade-in/FadeIn';
-import Product from '../product/Product';
-import CatalogSelector from '../catalog-selector/CatalogSelector';
+import Category from '../category/Category';
 import PaginationSummary from '../pagination-summary/PaginationSummary';
 
 const styles = makeStyles(theme => ({
@@ -46,9 +45,6 @@ export const ProductsGridComponent = params => {
             <PaginationSummary />
           </FadeIn>
         </Grid>
-        <Grid item container xs={6}>
-          {params.catalogs.length && params.initialised ? <CatalogSelector /> : ''}
-        </Grid>
       </Grid>
 
       <FadeIn 
@@ -60,7 +56,7 @@ export const ProductsGridComponent = params => {
       <div className={classes.items}>
         {
           !params.loading &&
-          params.items.map(item => <Product key={item.id} item={item} />)
+          params.items.map(item => <Category key={item.id} item={item} />)
         }
       </div>
   
@@ -71,15 +67,14 @@ export const ProductsGridComponent = params => {
   );
 };
 
-const ProductsGrid = connect(
+const CategoriesGrid = connect(
   state => ({
-    items: state.items,
+    items: state.categories,
     loading: state.isFetching,
     initialised: state.initialised,
-    catalogs: state.params.catalogs,
     backend: state.backend
   }),
   null
 )(ProductsGridComponent);
 
-export default ProductsGrid;
+export default CategoriesGrid;

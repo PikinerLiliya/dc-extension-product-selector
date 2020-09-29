@@ -3,7 +3,7 @@ import {ProductSelectorError} from '../ProductSelectorError';
 import qs from 'qs';
 
 export class CommerceTools {
-  constructor({host, projectKey, clientId, clientSecret, apiUrl, scope = 'view_published_products', locale}) {
+  constructor({host, projectKey, clientId, clientSecret, apiUrl, scope = 'manage_categories', locale = 'en'}) {
 
     this.sdkAuth = new SdkAuth({
       host,
@@ -41,7 +41,7 @@ export class CommerceTools {
       }
     } = state;
     try {
-      if (!filterIds.length){
+      if (!filterIds.length) {
         return [];
       }
       const headers = await this.getHeaders();
@@ -54,26 +54,45 @@ export class CommerceTools {
 
       const queryString = qs.stringify(
         {
-          staged: false,
           limit: PAGE_SIZE,
           where: `id in (${idsStrings})`
         }
       );
 
-      const response = await fetch(`${this.apiUrl}/${projectKey}/product-projections?${queryString}`, params);
+      const response = await fetch(`${this.apiUrl}/${projectKey}/categories?${queryString}`, params);
       const {results} = await response.json();
 
-      return this.parseResults(results);
+      let resultsPopulated = await Promise.all(results.map(async (item) => {
+        if (item.parent && item.parent.id) {
+          const headers = await this.getHeaders();
+
+          const params = {
+            method: 'GET',
+            ...headers
+          };
+
+          const response = await fetch(`${this.apiUrl}/${projectKey}/categories/${item.parent.id}`, params);
+          const {name, id} = await response.json();
+
+          item.parent = {
+            name,
+            id
+          }
+        }
+        return item;
+      }));
+
+      return resultsPopulated;
 
     } catch (e) {
       console.error(e);
-      throw new ProductSelectorError('Could not get items', ProductSelectorError.codes.GET_SELECTED_ITEMS);
+      throw new ProductSelectorError('Could not get categories', ProductSelectorError.codes.GET_CATEGORIES);
     }
   }
 
-  getImage({ attributes = [], images = [] }) {
+  getImage({attributes = [], images = []}) {
     const LARGE_IMAGE_KEY = 'largeImageUrl';
-    const largeImage = attributes.find(({ name = '' }) => name === LARGE_IMAGE_KEY);
+    const largeImage = attributes.find(({name = ''}) => name === LARGE_IMAGE_KEY);
 
     if (largeImage && largeImage.value) {
       return largeImage.value;
@@ -108,20 +127,45 @@ export class CommerceTools {
         ...headers
       };
 
+      const query = {
+        offset: page.curPage * PAGE_SIZE,
+        limit: PAGE_SIZE,
+      };
+
+      if (searchText) {
+        query.where = `name(${this.locale} = "${searchText}")`;
+      }
+
       const queryString = qs.stringify(
-        {
-          staged: false,
-          offset: page.curPage * PAGE_SIZE,
-          limit: PAGE_SIZE,
-          [`text.${this.locale}`]: searchText
-        }
+        query
       );
 
-      const response = await fetch(`${this.apiUrl}/${projectKey}/product-projections/search?${queryString}`, params);
+      const response = await fetch(`${this.apiUrl}/${projectKey}/categories?${queryString}`, params);
       const {results, total} = await response.json();
 
+
+      let resultsPopulated = await Promise.all(results.map(async (item) => {
+        if (item.parent && item.parent.id) {
+          const headers = await this.getHeaders();
+
+          const params = {
+            method: 'GET',
+            ...headers
+          };
+
+          const response = await fetch(`${this.apiUrl}/${projectKey}/categories/${item.parent.id}`, params);
+          const {name, id} = await response.json();
+
+          item.parent = {
+            name,
+            id
+          }
+        }
+        return item;
+      }));
+
       return {
-        items: this.parseResults(results),
+        items: resultsPopulated,
         page: {
           numPages: Math.ceil(total / PAGE_SIZE),
           curPage: page.curPage,
@@ -130,7 +174,7 @@ export class CommerceTools {
       };
     } catch (e) {
       console.error(e);
-      throw new ProductSelectorError('Could not search', ProductSelectorError.codes.GET_ITEMS);
+      throw new ProductSelectorError('Could not search categories', ProductSelectorError.codes.GET_CATEGORIES);
     }
   }
 

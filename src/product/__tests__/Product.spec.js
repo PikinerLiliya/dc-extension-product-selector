@@ -6,7 +6,7 @@ import { mockExtensionWrapper } from '../../utils/mockExtension.js';
 import { ProductComponent } from '../Product';
 import { IconButton, Card } from '@material-ui/core';
 
-describe('Product', () => {
+describe('Category', () => {
 
   it('renders without crashing', async () => {
     const { Render, store } = await mockExtensionWrapper();
@@ -15,8 +15,8 @@ describe('Product', () => {
       <Render>
         <ProductComponent
           {...store.getState()}
-          item={{id: '1'}}
-          selectedItems={[{id: '1'}]}
+          item={{id: '1', name: '1'}}
+          selectedItems={[{id: '1', name: '1'}]}
         />
       </Render>
     );

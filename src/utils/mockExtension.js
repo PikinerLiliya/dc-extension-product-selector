@@ -5,13 +5,15 @@ import { Provider } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core';
 
 const initalParams  = {
-  proxyUrl: '',
-  sfccUrl: '',
-  authSecret: '',
-  authClientId: '',
-  siteId: '',
+  "host": "https://auth.europe-west1.gcp.commercetools.com",
+  "projectKey": "ulta-amp",
+  "clientId": "4h4q7if8FAsycH1Qtba6WhPQ",
+  "clientSecret": "DFwdLEY3b0Y2YGRMZwBOvmIrwcIVoL6f",
+  "apiUrl": "https://api.europe-west1.gcp.commercetools.com",
+  "scope": "manage_categories",
+  "locale": "en",
   catalogs: [],
-  backend: 'SFCC',
+  backend: 'Commercetools',
   noItemsText: 'No items selected.',
   searchPlaceholderText: 'Search'
 };

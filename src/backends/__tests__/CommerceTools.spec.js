@@ -8,7 +8,7 @@ const params = {
   "clientId": "4h4q7if8FAsycH1Qtba6WhPQ",
   "clientSecret": "DFwdLEY3b0Y2YGRMZwBOvmIrwcIVoL6f",
   "apiUrl": "https://api.europe-west1.gcp.commercetools.com",
-  "scope": "view_products",
+  "scope": "manage_categories",
   "locale": "en"
 };
 
@@ -86,15 +86,23 @@ describe('CommerceTools', () => {
 
     const result = await commerceTools.getItems(state, ids);
 
-    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/product-projections?staged=false&limit=20&where=id%20in%20%28%22480c5acd-a812-41b0-9a6e-b91f23851f36%22%29", {
+    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/categories?limit=20&where=id%20in%20%28%22480c5acd-a812-41b0-9a6e-b91f23851f36%22%29", {
       method: 'GET',
       ...headers
     });
     expect(result).toEqual([
       {
         id: '480c5acd-a812-41b0-9a6e-b91f23851f36',
-        name: 'test',
-        image: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081090_1_large.jpg'
+        "masterVariant": {
+          "images": [
+            {
+              "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081090_1_large.jpg",
+            },
+          ],
+        },
+        "name": {
+          "en": "test",
+        },
       }
     ]);
   });
@@ -117,7 +125,7 @@ describe('CommerceTools', () => {
 
     const result = await commerceTools.getItems(state);
 
-    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/product-projections?staged=false&limit=20&where=id%20in%20%28%22480c5acd-a812-41b0-9a6e-b91f23851f36%22%29", {
+    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/categories?limit=20&where=id%20in%20%28%22480c5acd-a812-41b0-9a6e-b91f23851f36%22%29", {
       method: 'GET',
       ...headers
     });
@@ -140,7 +148,7 @@ describe('CommerceTools', () => {
       await commerceTools.getItems(state, ids);
     } catch (e) {
       expect(console.error).toHaveBeenCalledWith('Unable to connect');
-      expect(e).toEqual(new ProductSelectorError('Could not get items', ProductSelectorError.codes.GET_SELECTED_ITEMS));
+      expect(e).toEqual(new ProductSelectorError('Could not get categories', ProductSelectorError.codes.GET_SELECTED_ITEMS));
     }
   });
 
@@ -175,7 +183,7 @@ describe('CommerceTools', () => {
 
     const result = await commerceTools.search(state);
 
-    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/product-projections/search?staged=false&offset=0&limit=20&text.en=white", {
+    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/categories?offset=0&limit=20&where=name%28en%20%3D%20%22white%22%29", {
       method: 'GET',
       ...headers
     });
@@ -184,7 +192,16 @@ describe('CommerceTools', () => {
       items: [{
         id: '480c5acd-a812-41b0-9a6e-b91f23851f36',
         name: 'test',
-        image: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081090_1_large.jpg'
+        "masterVariant": {
+          "images": [
+            {
+              "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081090_1_large.jpg",
+            },
+          ],
+        },
+        "name": {
+          "en": "test",
+        },
       }], page: {numPages: 1, curPage: 0, total: 1}
     });
   });
@@ -210,7 +227,7 @@ describe('CommerceTools', () => {
 
     const result = await commerceTools.search(state);
 
-    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/product-projections/search?staged=false&offset=0&limit=20&text.en=white", {
+    expect(global.fetch).toBeCalledWith("https://api.europe-west1.gcp.commercetools.com/ulta-amp/categories?offset=0&limit=20&where=name%28en%20%3D%20%22white%22%29", {
       method: 'GET',
       ...headers
     });
@@ -236,7 +253,7 @@ describe('CommerceTools', () => {
       await commerceTools.search(state);
     } catch (e) {
       expect(console.error).toHaveBeenCalledWith('Unable to connect');
-      expect(e).toEqual(new ProductSelectorError('Could not search', ProductSelectorError.codes.GET_ITEMS));
+      expect(e).toEqual(new ProductSelectorError('Could not search categories', ProductSelectorError.codes.GET_ITEMS));
     }
   });
 

@@ -2,7 +2,7 @@ import { mockStore } from '../../../utils/mockStore';
 import { setCatalog, SET_CATALOG, changeCatalog } from '../catalog.actions';
 import { SET_PAGE } from '../../pages/pages.actions';
 import { SET_FETCHING } from '../../fetching/fetching.actions';
-import { SET_ITEMS } from '../../items/items.actions';
+import { SET_ITEMS } from '../../categoriesList/categoriesList.actions';
 
 describe('catalog actions', () => {
   it('SET_CATALOG', async () => {

@@ -2,16 +2,16 @@ import { toLower } from 'lodash';
 import { SET_PARAMS } from "./params.actions";
 
 export const params = {
+  host: 'test',
   proxyUrl: '',
-  sfccUrl: '',
   authSecret: '',
   authClientId: '',
   siteId: '',
   currency: 'USD',
   catalogs: [],
-  backend: 'SFCC',
+  backend: 'Commercetools',
   noItemsText: 'No items selected.',
-  searchPlaceholderText: 'Search'
+  searchPlaceholderText: 'Search',
 };
 
 export function paramReducer(state = params, {type, value}) {

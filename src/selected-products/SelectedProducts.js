@@ -8,7 +8,7 @@ import { reorderItems } from '../store/selectedItems/selectedItems.actions';
 
 import Sortable from 'react-sortablejs';
 import FadeIn from '../fade-in/FadeIn';
-import Product from '../product/Product';
+import Category from '../category/Category';
 import FormError from '../form-error/FormError';
 
 import './selected-products.scss';
@@ -70,11 +70,11 @@ export const SelectedProductsComponent = params => {
   const { minItems, maxItems } = get(params.SDK, 'field.schema', {});
   const { readOnly } = get(params.SDK, 'form', {});
   const classes = styles({ readOnly });
-  const showMinItemError = params.touched && minItems && params.selectedItems.length < minItems;
-  const showMaxItemError = params.touched && maxItems && params.selectedItems.length > maxItems;
+  const showMinItemError = params.touched && minItems && params.selectedCategories.length < minItems;
+  const showMaxItemError = params.touched && maxItems && params.selectedCategories.length > maxItems;
 
-  const items = params.selectedItems.length ? (
-    <ProductList selectedItems={params.selectedItems} classes={classes} isDragging={isDragging}/>
+  const items = params.selectedCategories.length ? (
+    <ProductList selectedCategories={params.selectedCategories} classes={classes} isDragging={isDragging}/>
   ) : (
     <NoItems classes={classes} noItemsText={params.params.noItemsText} />
   );
@@ -82,7 +82,7 @@ export const SelectedProductsComponent = params => {
   return (
     <Paper className={'selected-products ' + classes.root}>
       <Typography variant="subtitle1" component="h2" className={classes.title}>
-        {get(params.SDK, 'field.schema.title', 'Selected products')}
+        {get(params.SDK, 'field.schema.title', 'Selected categories')}
       </Typography>
 
       <Loading show={!params.initialised} className={classes.loader} />
@@ -114,10 +114,10 @@ export const SelectedProductsComponent = params => {
   );
 };
 
-const ProductList = ({ selectedItems, classes, isDragging }) => {
-  return selectedItems.map(item => (
+const ProductList = ({ selectedCategories, classes, isDragging }) => {
+  return selectedCategories.map(item => (
     <motion.div positionTransition={isDragging ? null : {type: 'tween'}} key={item.id}>
-      <Product className={classes.dragItem} item={item} variant="removable" />
+      <Category className={classes.dragItem} item={item} variant="removable" />
     </motion.div>
   ));
 };
@@ -140,7 +140,7 @@ const NoItems = ({ classes, noItemsText }) => (
 
 const SelectedProducts = connect(
   state => ({
-    selectedItems: state.selectedItems,
+    selectedCategories: state.selectedCategories,
     SDK: state.SDK,
     params: state.params,
     touched: state.touched,

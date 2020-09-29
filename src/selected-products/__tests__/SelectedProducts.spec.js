@@ -4,7 +4,7 @@ import { mockExtensionWrapper } from '../../utils/mockExtension.js';
 
 import SelectedProducts, { SelectedProductsComponent } from '../SelectedProducts';
 import { Typography, CircularProgress, FormHelperText } from '@material-ui/core';
-import Product from '../../product/Product.js';
+import Category from '../../category/Category.js';
 import Sortable from 'react-sortablejs';
 import FormError from '../../form-error/FormError.js';
 
@@ -29,16 +29,16 @@ describe('SelectedProducts', () => {
           SDK={{
             field: {
               schema: {
-                title: 'SFCC'
+                title: 'Commercetools'
               }
             }
           }}
-          selectedItems={[]}
+          selectedCategories={[]}
         />
       </Render>
     );
 
-    expect(wrapper.find(Typography).contains('SFCC')).toBeTruthy();
+    expect(wrapper.find(Typography).contains('Commercetools')).toBeTruthy();
   });
 
   it('should just default to selected products if no schema title', async () => {
@@ -128,16 +128,16 @@ describe('SelectedProducts', () => {
             }
           }}
           initialised={true}
-          selectedItems={[
-            { name: '1', image: '/1', id: '1' },
-            { name: '2', image: '/2', id: '2' },
-            { name: '3', image: '/3', id: '3' }
+          selectedCategories={[
+            { name: {en: '1'}, id: '1' },
+            { name: {en: '2'}, id: '2' },
+            { name: {en: '3'}, id: '3' }
           ]}
         />
       </Render>
     );
 
-    expect(wrapper.find(Product).children().length).toBe(3);
+    expect(wrapper.find(Category).children().length).toBe(3);
     expect(wrapper.find(Sortable).exists()).toBeTruthy();
   });
 
@@ -159,16 +159,16 @@ describe('SelectedProducts', () => {
             }
           }}
           initialised={true}
-          selectedItems={[
-            { name: '1', image: '/1', id: '1' },
-            { name: '2', image: '/2', id: '2' },
-            { name: '3', image: '/3', id: '3' }
+          selectedCategories={[
+            { name: {en: '1'}, id: '1' },
+            { name: {en: '2'}, id: '2' },
+            { name: {en: '3'}, id: '3' }
           ]}
         />
       </Render>
     );
 
-    expect(wrapper.find(Product).children().length).toBe(3);
+    expect(wrapper.find(Category).children().length).toBe(3);
     expect(wrapper.find(Sortable).exists()).toBeFalsy();
   });
 
@@ -192,10 +192,10 @@ describe('SelectedProducts', () => {
           }}
           touched={true}
           initialised={true}
-          selectedItems={[
-            { name: '1', image: '/1', id: '1' },
-            { name: '2', image: '/2', id: '2' },
-            { name: '3', image: '/3', id: '3' }
+          selectedCategories={[
+            { name: {en: '1'}, id: '1' },
+            { name: {en: '2'}, id: '2' },
+            { name: {en: '3'}, id: '3' }
           ]}
         />
       </Render>
@@ -214,7 +214,7 @@ describe('SelectedProducts', () => {
           SDK={{
             field: {
               schema: {
-                title: 'Selected Products',
+                title: 'Selected categories',
                 maxItems: 2
               }
             },
@@ -224,10 +224,10 @@ describe('SelectedProducts', () => {
           }}
           touched={true}
           initialised={true}
-          selectedItems={[
-            { name: '1', image: '/1', id: '1' },
-            { name: '2', image: '/2', id: '2' },
-            { name: '3', image: '/3', id: '3' }
+          selectedCategories={[
+            { name: {en: '1'}, id: '1' },
+            { name: {en: '2'}, id: '2' },
+            { name: {en: '3'}, id: '3' }
           ]}
         />
       </Render>

@@ -4,16 +4,13 @@
 
 ![Travis](https://img.shields.io/travis/amplience/dc-extension-product-selector)
 
-The product selector extension allows content authors to easily search and select products in Salesforce B2C Commerce Cloud (SFCC), SAP Commerce Cloud (Hybris) or Commercetools and add them to your content.
+The product selector extension allows content authors to easily search and select categoories in Commercetools and add them to your content.
 
-The IDs of each product selected are added to the content as an array of strings for SFCC or Commercetools and an array of objects with the id and catalog for Hybris.
+The IDs of each category selected are added to the content as an array of strings for Commercetools.
 
 ![](/screenshot.png?raw=true)
 
-The extension requires the use of the [sfcc-product-search-proxy)](https://github.com/amplience/sfcc-product-search-proxy) to work around CORS issues when calling the SFCC data endpoint. It is not needed when using with Hybris or Commercetools.
-
 ## Installation Parameters
-
 
 ### Customise 
 
@@ -21,101 +18,6 @@ The extension requires the use of the [sfcc-product-search-proxy)](https://githu
 |---|---|---|---|
 | noItemsText | No items selected. | Placeholder text to display when no items are selected. | false
 | searchPlaceholderText  | Search  | Placeholder text to show in the search box.  | false 
-
-### SFCC
-
-The extension works with 'list of text' properties and supports the following parameters:
-
-```json
-{
-  "proxyUrl": "{The URL of the proxy service}",
-  "sfccUrl": "{The URL of the SFCC instance}",
-  "authSecret": "{The SFCC OAuth client secret}",
-  "authClientId": "{The SFCC OAuth client ID}",
-  "siteId": "{The ID of the site containing products in SFCC}"
-}
-```
-
-#### Example Snippet
-
-```json
-{
-  "product selector": {
-    "title": "Product Selector",
-    "description": "description",
-    "type": "array",
-    "minItems": 3,
-    "maxItems": 10,
-    "items": {
-      "type": "string"
-    },
-    "ui:extension": {
-      "url": "https://product-selector.amplience.com",
-      "height": 208,
-      "params": {
-        "proxyUrl": "https://sfcc-proxy.amplience.com",
-        "sfccUrl": "https://sandbox.demandware.net",
-        "authSecret": "aa1111AAAAAA1",
-        "authClientId": "11111111-1111-1111-1111-111111111111",
-        "siteId": "TestSite"
-      }
-    }
-  }
-}
-```
-
-### Hybris
-
-Hybris works with a list of objects with the properties id and catalog and requires the following parameters:
-
-```json
-{
-  "hybrisUrl": "{URL of your hybris api}",
-  "backend": "hybris",
-  "currency": "{Currency of your products defaults to USD}",
-  "catalogs": [
-    {
-      "id": "{ID of catalog}",
-      "name": "{Display name of catalog}"
-    }
-  ]
-}
-```
-
-
-#### Example snippet
-
-```json
-{
-  "title": "title",
-  "description": "description",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "string"
-      },
-      "catalog": {
-        "type": "string"
-      }
-    }
-  },
-  "ui:extension": {
-    "name": "{{name of extension}}",
-    "params": {
-      "hybrisUrl": "https://api-hybris.amplience.com",
-      "backend": "hybris",
-      "catalogs": [
-        {
-          "id": "test-catalog",
-          "name": "test"
-        }
-      ]
-    }
-  }
-}
-```
 
 ### Commercetools
 
@@ -134,15 +36,14 @@ The extension works with 'list of text' properties and supports the following pa
 }
 ```
 Values could be get from creating API Client on Commercetools platform (Settings/Developer settings/Create new API client). 
-Required minimal scope of permissions is `view_published_products`, choose View/Products (published).
-Image to display is selected from attributes of master variant by name `largeImageUrl` or first image in `images` array.
+Required minimal scope of permissions is `manage_categories`.
 
 #### Example Snippet
 
 ```json
 {
   "product selector": {
-    "title": "Product Selector",
+    "title": "Category Selector",
     "description": "description",
     "type": "array",
     "minItems": 3,
@@ -161,7 +62,7 @@ Image to display is selected from attributes of master variant by name `largeIma
         "clientId": "clientId",
         "clientSecret": "clientSecret",
         "scope": "view_published_products",
-        "locale": "en-CA"
+        "locale": "en"
       }
     }
   }

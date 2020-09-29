@@ -1,4 +1,4 @@
-import { getItems } from "../items/items.actions";
+import { getItems } from "../categoriesList/categoriesList.actions";
 
 export const SET_PAGE = 'SET_PAGE';
 export const setPage = value => ({

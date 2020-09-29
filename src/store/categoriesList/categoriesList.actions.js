@@ -1,9 +1,7 @@
-import { map, trim, isEmpty, get } from 'lodash';
+import { map, get } from 'lodash';
 import { setPage } from '../pages/pages.actions';
 import { setFetching } from '../fetching/fetching.actions';
 import { setGlobalError } from '../global-error/global-error.actions';
-
-export const SET_VALUE = 'SET_VALUE';
 
 export const setValue = selectedItems => async (dispatch, getState) => {
   const { SDK, backend } = getState();
@@ -21,17 +19,6 @@ export const GET_ITEMS = 'GET_ITEMS';
 
 export const getItems = () => async (dispatch, getState) => {
   const state = getState();
-
-  if (isEmpty(trim(state.searchText))) {
-    const page = {
-      numPages: 0,
-      curPage: 0,
-      total: 0
-    };
-    dispatch(setPage(page));
-    dispatch(setItems([]));
-    return;
-  }
 
   dispatch(setFetching(true));
 
